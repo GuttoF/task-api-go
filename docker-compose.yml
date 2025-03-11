@@ -1,12 +1,15 @@
 services:
-  app:
-    image: golang:1.24.0-bullseye
-    container_name: go-api
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     volumes:
       - .:/app
-    working_dir: /app
-    command: >
-      bash -c '
-      go install github.com/air-verse/air@latest
-      && air --build.cmd "go build -o tmp/api main.go" --build.bin "./tmp/api"
-      '
+      - go-mod-cache:/go/pkg/mod
+    ports:
+      - "8080:8080"
+    environment:
+      - GO_ENV=development
+
+volumes:
+  go-mod-cache:

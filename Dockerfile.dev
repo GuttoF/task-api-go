@@ -1,0 +1,7 @@
+FROM golang:1.24.0-alpine3.20 AS build
+
+RUN go install github.com/cosmtrek/air@latest
+
+WORKDIR /app
+
+CMD ["air"]
